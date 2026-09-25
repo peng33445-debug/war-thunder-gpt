@@ -1,3 +1,4 @@
+
 import { Guide } from "./Guide.js";
 
 class Game {
@@ -59,7 +60,6 @@ class Game {
     }
 
     resizeCanvas() {
-
         const dpr =
             window.devicePixelRatio || 1;
 
@@ -92,7 +92,6 @@ class Game {
     }
 
     start() {
-
         this.started = true;
 
         this.playerTank.x =
@@ -102,6 +101,10 @@ class Game {
             window.innerHeight / 2;
 
         this.movement.reset();
+
+        // =========================
+        // Enemy Position
+        // =========================
 
         this.enemy.x =
             window.innerWidth * 0.72;
@@ -117,7 +120,7 @@ class Game {
         }
 
         // =========================
-        // Movement
+        // Guide → Movement
         // =========================
 
         Guide.modules.movement.update(
@@ -127,7 +130,7 @@ class Game {
         );
 
         // =========================
-        // Turret
+        // Guide → Turret
         // =========================
 
         Guide.modules.turret.update(
@@ -137,7 +140,7 @@ class Game {
         );
 
         // =========================
-        // Enemy
+        // Guide → Enemy
         // =========================
 
         Guide.modules.enemy.update(
@@ -184,7 +187,7 @@ class Game {
         );
 
         // =========================
-        // Player Tank
+        // Tank
         // =========================
 
         this.playerTank.draw(
@@ -192,7 +195,7 @@ class Game {
         );
 
         // =========================
-        // Turret
+        // Guide → Turret
         // =========================
 
         Guide.modules.turret.render(
