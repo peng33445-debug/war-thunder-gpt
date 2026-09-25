@@ -1,51 +1,30 @@
 class Tank {
 
     constructor(x, y) {
-
         this.x = x;
         this.y = y;
 
-        // 车体朝向
         this.hullAngle = 0;
-
-        // 炮塔朝向
         this.turretAngle = 0;
 
-        // 基础尺寸
         this.width = 70;
         this.height = 42;
 
-        // 炮塔尺寸
         this.turretWidth = 30;
         this.turretHeight = 26;
 
-        // 炮管长度
         this.gunLength = 42;
+
+        // V0.1 测试坦克基础数据
+        this.turretTurnSpeed = 3.5;
     }
 
-
     draw(ctx) {
-
         ctx.save();
 
-        /*
-         * 移动到坦克中心
-         */
-
-        ctx.translate(
-            this.x,
-            this.y
-        );
-
-
-        /*
-         * =========================
-         * 车体
-         * =========================
-         */
+        ctx.translate(this.x, this.y);
 
         ctx.save();
-
         ctx.rotate(this.hullAngle);
 
         ctx.fillStyle = "#596158";
@@ -56,11 +35,6 @@ class Tank {
             this.width,
             this.height
         );
-
-
-        /*
-         * 履带
-         */
 
         ctx.fillStyle = "#292d2a";
 
@@ -80,15 +54,7 @@ class Tank {
 
         ctx.restore();
 
-
-        /*
-         * =========================
-         * 炮塔
-         * =========================
-         */
-
         ctx.save();
-
         ctx.rotate(this.turretAngle);
 
         ctx.fillStyle = "#687067";
@@ -99,11 +65,6 @@ class Tank {
             this.turretWidth,
             this.turretHeight
         );
-
-
-        /*
-         * 炮管
-         */
 
         ctx.fillStyle = "#343934";
 
@@ -116,12 +77,8 @@ class Tank {
 
         ctx.restore();
 
-
         ctx.restore();
-
     }
-
 }
-
 
 export { Tank };
