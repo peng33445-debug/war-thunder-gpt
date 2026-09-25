@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width,
+                   initial-scale=1.0,
+                   maximum-scale=1.0,
+                   user-scalable=no,
+                   viewport-fit=cover"
+    >
+
+    <title>Tank Game</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         游戏主容器
+         ========================= -->
+    <main id="game">
+
+        <!-- =========================
+             游戏画布
+             地图、坦克、炮弹等由 Canvas 绘制
+             ========================= -->
+        <canvas id="gameCanvas"></canvas>
+
+
+        <!-- =========================
+             主菜单
+             ========================= -->
+        <section id="mainMenu">
+
+            <button id="easyButton">
+                简单
+            </button>
+
+            <button id="normalButton">
+                普通
+            </button>
+
+            <button id="hardButton">
+                困难
+            </button>
+
+            <button id="testFieldButton">
+                试车场
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             游戏内 UI
+             ========================= -->
+        <section id="gameUI">
+
+            <!-- 玩家状态 -->
+            <div id="playerStatus">
+
+                <!-- HP -->
+                <div id="playerHP">
+                    <span id="playerHPText">100</span>
+                </div>
+
+                <!-- 玩家引擎状态 -->
+                <div id="playerEngineStatus">
+                    引擎
+                    <span id="playerEngineIndicator"></span>
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 敌方目标 / 模块反馈
+                 默认隐藏
+                 ========================= -->
+            <div id="enemyFeedback">
+
+                <div id="enemyName"></div>
+
+                <div id="enemyModuleInfo"></div>
+
+            </div>
+
+
+            <!-- =========================
+                 左下：移动摇杆
+                 ========================= -->
+            <div
+                id="movementJoystick"
+                class="joystick"
+            >
+                <div class="joystickInner"></div>
+            </div>
+
+
+            <!-- =========================
+                 右下：炮塔摇杆
+                 ========================= -->
+            <div
+                id="turretJoystick"
+                class="joystick"
+            >
+                <div class="joystickInner"></div>
+            </div>
+
+
+            <!-- =========================
+                 开火按钮
+                 ========================= -->
+            <button id="fireButton">
+                开火
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             预留：暂停界面
+             V0.1 暂不显示
+             ========================= -->
+        <section
+            id="pauseMenu"
+            hidden
+        >
+        </section>
+
+
+        <!-- =========================
+             预留：设置界面
+             V0.1 暂不显示
+             ========================= -->
+        <section
+            id="settingsMenu"
+            hidden
+        >
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         游戏程序入口
+         ========================= -->
+    <script
+        type="module"
+        src="js/main.js"
+    ></script>
+
+</body>
+
+</html>
