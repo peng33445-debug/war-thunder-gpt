@@ -10,6 +10,12 @@ class Camera {
 
         this.height =
             window.innerHeight;
+
+        // =========================
+        // 摄像机跟随惯性
+        // =========================
+
+        this.followSpeed = 5;
     }
 
     resize(width, height) {
@@ -18,15 +24,34 @@ class Camera {
         this.height = height;
     }
 
-    follow(target) {
+    follow(target, deltaTime) {
 
-        this.x =
+        const targetX =
             target.x -
             this.width / 2;
 
-        this.y =
+        const targetY =
             target.y -
             this.height / 2;
+
+        // =========================
+        // 平滑跟随
+        // =========================
+
+        const amount =
+            1 -
+            Math.exp(
+                -this.followSpeed *
+                deltaTime
+            );
+
+        this.x +=
+            (targetX - this.x) *
+            amount;
+
+        this.y +=
+            (targetY - this.y) *
+            amount;
     }
 
     worldToScreen(x, y) {
