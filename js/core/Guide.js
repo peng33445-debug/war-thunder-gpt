@@ -1,6 +1,7 @@
 import { Tank } from "../vehicle/Tank.js";
 import { Movement } from "../movement/Movement.js";
 import { Turret } from "../combat/Turret.js";
+import { Enemy } from "../enemy/Enemy.js";
 import { inputState } from "../input/Input.js";
 
 const Guide = {
@@ -45,6 +46,20 @@ const Guide = {
                     ctx,
                     tank
                 );
+            }
+        },
+
+        enemy: {
+            create(x, y) {
+                return new Enemy(x, y);
+            },
+
+            update(instance) {
+                instance.update();
+            },
+
+            render(instance, ctx) {
+                instance.draw(ctx);
             }
         }
 
