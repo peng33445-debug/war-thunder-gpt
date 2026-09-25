@@ -80,12 +80,12 @@ body {
 
     transform: translate(-50%, -50%);
 
-    width: min(360px, 80vw);
+    width: clamp(180px, 32vw, 300px);
 
     display: flex;
     flex-direction: column;
 
-    gap: 14px;
+    gap: 10px;
 
     z-index: 10;
 }
@@ -94,7 +94,7 @@ body {
 #mainMenu button {
     width: 100%;
 
-    min-height: 54px;
+    min-height: clamp(38px, 6vh, 48px);
 
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 10px;
@@ -345,6 +345,7 @@ body {
     color: #fff;
 
     font-size: 14px;
+
     font-weight: 600;
 
     pointer-events: auto;
