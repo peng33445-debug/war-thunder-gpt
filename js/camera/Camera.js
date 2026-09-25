@@ -1,3 +1,4 @@
+```javascript
 class Camera {
 
     constructor() {
@@ -12,17 +13,43 @@ class Camera {
             window.innerHeight;
 
         // =========================
-        // 摄像机跟随惯性
+        // 摄像机跟随速度
         // =========================
 
         this.followSpeed = 5;
     }
+
+
+    // =========================
+    // Canvas 尺寸
+    // =========================
 
     resize(width, height) {
 
         this.width = width;
         this.height = height;
     }
+
+
+    // =========================
+    // 立即跟随目标
+    // =========================
+
+    snapTo(target) {
+
+        this.x =
+            target.x -
+            this.width / 2;
+
+        this.y =
+            target.y -
+            this.height / 2;
+    }
+
+
+    // =========================
+    // 平滑跟随
+    // =========================
 
     follow(target, deltaTime) {
 
@@ -33,10 +60,6 @@ class Camera {
         const targetY =
             target.y -
             this.height / 2;
-
-        // =========================
-        // 平滑跟随
-        // =========================
 
         const amount =
             1 -
@@ -54,6 +77,11 @@ class Camera {
             amount;
     }
 
+
+    // =========================
+    // 世界坐标 → 屏幕坐标
+    // =========================
+
     worldToScreen(x, y) {
 
         return {
@@ -61,6 +89,11 @@ class Camera {
             y: y - this.y
         };
     }
+
+
+    // =========================
+    // 屏幕坐标 → 世界坐标
+    // =========================
 
     screenToWorld(x, y) {
 
@@ -71,4 +104,6 @@ class Camera {
     }
 }
 
+
 export { Camera };
+```
