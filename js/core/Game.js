@@ -1,20 +1,54 @@
-```javascript
 import { Guide } from "./Guide.js";
 
 class Game {
 
     constructor(canvas) {
-
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
 
         this.lastTime = 0;
         this.started = false;
 
-        this.modules =
+        // =========================
+        // Guide
+        // =========================
+
+        const modules =
             Guide.modules;
 
-        this.createGameObjects();
+        // =========================
+        // Player Tank
+        // =========================
+
+        this.playerTank =
+            modules.tank.create(
+                window.innerWidth / 2,
+                window.innerHeight / 2
+            );
+
+        // =========================
+        // Movement
+        // =========================
+
+        this.movement =
+            modules.movement.create();
+
+        // =========================
+        // Turret
+        // =========================
+
+        this.turret =
+            modules.turret.create();
+
+        // =========================
+        // Enemy
+        // =========================
+
+        this.enemy =
+            modules.enemy.create(
+                window.innerWidth * 0.72,
+                window.innerHeight / 2
+            );
 
         this.resizeCanvas();
 
@@ -24,39 +58,7 @@ class Game {
         );
     }
 
-
-    // =========================
-    // 创建游戏对象
-    // =========================
-
-    createGameObjects() {
-
-        this.playerTank =
-            this.modules.tank.create(
-                window.innerWidth / 2,
-                window.innerHeight / 2
-            );
-
-        this.movement =
-            this.modules.movement.create();
-
-        this.turret =
-            this.modules.turret.create();
-
-        this.enemy =
-            this.modules.enemy.create(
-                window.innerWidth * 0.72,
-                window.innerHeight / 2
-            );
-    }
-
-
-    // =========================
-    // Canvas
-    // =========================
-
     resizeCanvas() {
-
         const dpr =
             window.devicePixelRatio || 1;
 
@@ -88,13 +90,7 @@ class Game {
         );
     }
 
-
-    // =========================
-    // 游戏开始
-    // =========================
-
     start() {
-
         this.started = true;
 
         this.playerTank.x =
@@ -105,6 +101,10 @@ class Game {
 
         this.movement.reset();
 
+        // =========================
+        // Enemy Position
+        // =========================
+
         this.enemy.x =
             window.innerWidth * 0.72;
 
@@ -112,38 +112,40 @@ class Game {
             window.innerHeight / 2;
     }
 
-
-    // =========================
-    // 游戏更新
-    // =========================
-
     update(deltaTime) {
 
         if (!this.started) {
             return;
         }
 
-        this.modules.movement.update(
+        // =========================
+        // Guide → Movement
+        // =========================
+
+        Guide.modules.movement.update(
             this.movement,
             this.playerTank,
             deltaTime
         );
 
-        this.modules.turret.update(
+        // =========================
+        // Guide → Turret
+        // =========================
+
+        Guide.modules.turret.update(
             this.turret,
             this.playerTank,
             deltaTime
         );
 
-        this.modules.enemy.update(
+        // =========================
+        // Guide → Enemy
+        // =========================
+
+        Guide.modules.enemy.update(
             this.enemy
         );
     }
-
-
-    // =========================
-    // 游戏渲染
-    // =========================
 
     render() {
 
@@ -174,26 +176,33 @@ class Game {
             return;
         }
 
-        this.modules.enemy.render(
+        // =========================
+        // Enemy
+        // =========================
+
+        Guide.modules.enemy.render(
             this.enemy,
             this.ctx
         );
+
+        // =========================
+        // Tank
+        // =========================
 
         this.playerTank.draw(
             this.ctx
         );
 
-        this.modules.turret.render(
+        // =========================
+        // Guide → Turret
+        // =========================
+
+        Guide.modules.turret.render(
             this.turret,
             this.ctx,
             this.playerTank
         );
     }
-
-
-    // =========================
-    // 游戏循环
-    // =========================
 
     gameLoop(timestamp) {
 
@@ -209,7 +218,6 @@ class Game {
             timestamp;
 
         this.update(deltaTime);
-
         this.render();
 
         requestAnimationFrame(
@@ -217,11 +225,6 @@ class Game {
                 this.gameLoop(time)
         );
     }
-
-
-    // =========================
-    // 运行
-    // =========================
 
     run() {
 
@@ -233,4 +236,3 @@ class Game {
 }
 
 export { Game };
-```
