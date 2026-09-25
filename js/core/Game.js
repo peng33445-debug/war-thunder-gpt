@@ -1,5 +1,4 @@
 import { Guide } from "./Guide.js";
-import { inputState } from "../input/Input.js";
 
 class Game {
 
@@ -10,13 +9,36 @@ class Game {
         this.lastTime = 0;
         this.started = false;
 
-        this.playerTank = new Guide.Tank(
-            window.innerWidth / 2,
-            window.innerHeight / 2
-        );
+        // =========================
+        // Guide
+        // =========================
 
-        this.movement = new Guide.Movement();
-        this.turret = new Guide.Turret();
+        const modules =
+            Guide.modules;
+
+        // =========================
+        // Player Tank
+        // =========================
+
+        this.playerTank =
+            modules.tank.create(
+                window.innerWidth / 2,
+                window.innerHeight / 2
+            );
+
+        // =========================
+        // Movement
+        // =========================
+
+        this.movement =
+            modules.movement.create();
+
+        // =========================
+        // Turret
+        // =========================
+
+        this.turret =
+            modules.turret.create();
 
         this.resizeCanvas();
 
@@ -77,22 +99,22 @@ class Game {
         }
 
         // =========================
-        // 004 Movement
+        // Guide → Movement
         // =========================
 
-        this.movement.update(
+        Guide.modules.movement.update(
+            this.movement,
             this.playerTank,
-            inputState.movement,
             deltaTime
         );
 
         // =========================
-        // 005 Turret
+        // Guide → Turret
         // =========================
 
-        this.turret.update(
+        Guide.modules.turret.update(
+            this.turret,
             this.playerTank,
-            inputState.turret,
             deltaTime
         );
     }
@@ -135,10 +157,11 @@ class Game {
         );
 
         // =========================
-        // Turret
+        // Guide → Turret
         // =========================
 
-        this.turret.draw(
+        Guide.modules.turret.render(
+            this.turret,
             this.ctx,
             this.playerTank
         );
