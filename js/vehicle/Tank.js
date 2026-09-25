@@ -16,7 +16,7 @@ class Tank {
         this.gunLength = 42;
 
         // V0.1 测试坦克基础数据
-        this.turretTurnSpeed = 3.5;
+        this.turretTurnSpeed = 1.5;
     }
 
     draw(ctx) {
