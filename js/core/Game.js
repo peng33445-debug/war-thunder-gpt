@@ -1,5 +1,5 @@
-import { Tank } from "./vehicle/Tank.js";
-import { Movement } from "./vehicle/Movement.js";
+import { Tank } from "../vehicle/Tank.js";
+import { Movement } from "../vehicle/Movement.js";
 
 
 class Game {
