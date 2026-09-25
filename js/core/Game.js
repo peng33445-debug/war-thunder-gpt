@@ -40,6 +40,16 @@ class Game {
         this.turret =
             modules.turret.create();
 
+        // =========================
+        // Enemy
+        // =========================
+
+        this.enemy =
+            modules.enemy.create(
+                window.innerWidth * 0.72,
+                window.innerHeight / 2
+            );
+
         this.resizeCanvas();
 
         window.addEventListener(
@@ -90,6 +100,16 @@ class Game {
             window.innerHeight / 2;
 
         this.movement.reset();
+
+        // =========================
+        // Enemy Position
+        // =========================
+
+        this.enemy.x =
+            window.innerWidth * 0.72;
+
+        this.enemy.y =
+            window.innerHeight / 2;
     }
 
     update(deltaTime) {
@@ -116,6 +136,14 @@ class Game {
             this.turret,
             this.playerTank,
             deltaTime
+        );
+
+        // =========================
+        // Guide → Enemy
+        // =========================
+
+        Guide.modules.enemy.update(
+            this.enemy
         );
     }
 
@@ -147,6 +175,15 @@ class Game {
         if (!this.started) {
             return;
         }
+
+        // =========================
+        // Enemy
+        // =========================
+
+        Guide.modules.enemy.render(
+            this.enemy,
+            this.ctx
+        );
 
         // =========================
         // Tank
