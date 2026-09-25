@@ -1,4 +1,5 @@
 import { Tank } from "../vehicle/Tank.js";
+import { Turret } from "../combat/Turret.js";
 import { inputState } from "../input/Input.js";
 
 class Game {
@@ -14,6 +15,8 @@ class Game {
             window.innerWidth / 2,
             window.innerHeight / 2
         );
+
+        this.turret = new Turret();
 
         this.speed = 0;
         this.maxSpeed = 180;
@@ -77,10 +80,10 @@ class Game {
             return;
         }
 
-        const input =
+        const movementInput =
             inputState.movement;
 
-        if (input.active) {
+        if (movementInput.active) {
 
             this.speed +=
                 this.acceleration *
@@ -92,8 +95,8 @@ class Game {
 
             const targetAngle =
                 Math.atan2(
-                    input.y,
-                    input.x
+                    movementInput.y,
+                    movementInput.x
                 );
 
             let angleDifference =
@@ -141,6 +144,13 @@ class Game {
             ) *
             this.speed *
             deltaTime;
+
+        // 005 Turret
+        this.turret.update(
+            this.playerTank,
+            inputState.turret,
+            deltaTime
+        );
     }
 
     render() {
