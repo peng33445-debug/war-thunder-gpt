@@ -1,7 +1,4 @@
-
-import { Tank } from "../vehicle/Tank.js";
-import { Movement } from "../movement/Movement.js";
-import { Turret } from "../combat/Turret.js";
+import { Guide } from "./Guide.js";
 import { inputState } from "../input/Input.js";
 
 class Game {
@@ -13,13 +10,13 @@ class Game {
         this.lastTime = 0;
         this.started = false;
 
-        this.playerTank = new Tank(
+        this.playerTank = new Guide.Tank(
             window.innerWidth / 2,
             window.innerHeight / 2
         );
 
-        this.movement = new Movement();
-        this.turret = new Turret();
+        this.movement = new Guide.Movement();
+        this.turret = new Guide.Turret();
 
         this.resizeCanvas();
 
