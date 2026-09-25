@@ -1,3 +1,4 @@
+
 class Turret {
 
     update(tank, input, deltaTime) {
@@ -7,7 +8,9 @@ class Turret {
         }
 
         /*
-         * 只使用右摇杆的左右方向。
+         * 右摇杆左右控制炮塔。
+         *
+         * turretAngle 是相对于车体的角度。
          *
          * x > 0：向右旋转
          * x < 0：向左旋转
@@ -19,7 +22,7 @@ class Turret {
             input.x;
 
         /*
-         * 摇杆越往左右推，
+         * 摇杆推得越远，
          * 炮塔旋转越快。
          */
 
