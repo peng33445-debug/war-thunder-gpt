@@ -50,6 +50,13 @@ class Game {
                 window.innerHeight / 2
             );
 
+        // =========================
+        // Camera
+        // =========================
+
+        this.camera =
+            modules.camera.create();
+
         this.resizeCanvas();
 
         window.addEventListener(
@@ -59,6 +66,7 @@ class Game {
     }
 
     resizeCanvas() {
+
         const dpr =
             window.devicePixelRatio || 1;
 
@@ -88,10 +96,25 @@ class Game {
             0,
             0
         );
+
+        // =========================
+        // Camera 尺寸
+        // =========================
+
+        Guide.modules.camera.resize(
+            this.camera,
+            width,
+            height
+        );
     }
 
     start() {
+
         this.started = true;
+
+        // =========================
+        // Player Position
+        // =========================
 
         this.playerTank.x =
             window.innerWidth / 2;
@@ -106,9 +129,22 @@ class Game {
         // =========================
 
         this.enemy.x =
-            window.innerWidth * 0.72;
+            this.playerTank.x +
+            260;
 
         this.enemy.y =
+            this.playerTank.y;
+
+        // =========================
+        // Camera 初始位置
+        // =========================
+
+        this.camera.x =
+            this.playerTank.x -
+            window.innerWidth / 2;
+
+        this.camera.y =
+            this.playerTank.y -
             window.innerHeight / 2;
     }
 
@@ -119,7 +155,7 @@ class Game {
         }
 
         // =========================
-        // Guide → Movement
+        // Movement
         // =========================
 
         Guide.modules.movement.update(
@@ -129,7 +165,7 @@ class Game {
         );
 
         // =========================
-        // Guide → Turret
+        // Turret
         // =========================
 
         Guide.modules.turret.update(
@@ -139,11 +175,21 @@ class Game {
         );
 
         // =========================
-        // Guide → Enemy
+        // Enemy
         // =========================
 
         Guide.modules.enemy.update(
             this.enemy
+        );
+
+        // =========================
+        // Camera
+        // =========================
+
+        Guide.modules.camera.follow(
+            this.camera,
+            this.playerTank,
+            deltaTime
         );
     }
 
@@ -180,21 +226,51 @@ class Game {
         // Enemy
         // =========================
 
+        const enemyScreen =
+            Guide.modules.camera.worldToScreen(
+                this.camera,
+                this.enemy.x,
+                this.enemy.y
+            );
+
+        this.ctx.save();
+
+        this.ctx.translate(
+            enemyScreen.x - this.enemy.x,
+            enemyScreen.y - this.enemy.y
+        );
+
         Guide.modules.enemy.render(
             this.enemy,
             this.ctx
         );
 
+        this.ctx.restore();
+
         // =========================
-        // Tank
+        // Player Tank
         // =========================
+
+        const playerScreen =
+            Guide.modules.camera.worldToScreen(
+                this.camera,
+                this.playerTank.x,
+                this.playerTank.y
+            );
+
+        this.ctx.save();
+
+        this.ctx.translate(
+            playerScreen.x - this.playerTank.x,
+            playerScreen.y - this.playerTank.y
+        );
 
         this.playerTank.draw(
             this.ctx
         );
 
         // =========================
-        // Guide → Turret
+        // Turret
         // =========================
 
         Guide.modules.turret.render(
@@ -202,6 +278,8 @@ class Game {
             this.ctx,
             this.playerTank
         );
+
+        this.ctx.restore();
     }
 
     gameLoop(timestamp) {
