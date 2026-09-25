@@ -2,6 +2,7 @@ import { Tank } from "../vehicle/Tank.js";
 import { Movement } from "../movement/Movement.js";
 import { Turret } from "../combat/Turret.js";
 import { Enemy } from "../enemy/Enemy.js";
+import { Camera } from "../camera/Camera.js";
 import { inputState } from "../input/Input.js";
 
 const Guide = {
@@ -60,6 +61,40 @@ const Guide = {
 
             render(instance, ctx) {
                 instance.draw(ctx);
+            }
+        },
+
+        camera: {
+            create() {
+                return new Camera();
+            },
+
+            follow(instance, target, deltaTime) {
+                instance.follow(
+                    target,
+                    deltaTime
+                );
+            },
+
+            resize(instance, width, height) {
+                instance.resize(
+                    width,
+                    height
+                );
+            },
+
+            worldToScreen(instance, x, y) {
+                return instance.worldToScreen(
+                    x,
+                    y
+                );
+            },
+
+            screenToWorld(instance, x, y) {
+                return instance.screenToWorld(
+                    x,
+                    y
+                );
             }
         }
 
