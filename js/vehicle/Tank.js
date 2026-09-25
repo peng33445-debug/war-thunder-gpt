@@ -1,3 +1,4 @@
+
 class Tank {
 
     constructor(x, y) {
@@ -22,10 +23,23 @@ class Tank {
     draw(ctx) {
         ctx.save();
 
-        ctx.translate(this.x, this.y);
+        ctx.translate(
+            this.x,
+            this.y
+        );
+
+        /*
+         * 车体坐标系
+         *
+         * 炮塔的角度以车体为基准。
+         */
+        ctx.rotate(this.hullAngle);
+
+        // =========================
+        // 车体
+        // =========================
 
         ctx.save();
-        ctx.rotate(this.hullAngle);
 
         ctx.fillStyle = "#596158";
 
@@ -54,7 +68,19 @@ class Tank {
 
         ctx.restore();
 
+        // =========================
+        // 炮塔
+        // =========================
+
         ctx.save();
+
+        /*
+         * turretAngle 是相对于车体的角度。
+         *
+         * 因为这里已经处于 hullAngle
+         * 的坐标系中，所以炮塔会随着
+         * 车体一起转动，同时还能独立旋转。
+         */
         ctx.rotate(this.turretAngle);
 
         ctx.fillStyle = "#687067";
