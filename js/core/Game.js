@@ -1,3 +1,4 @@
+
 import { Tank } from "../vehicle/Tank.js";
 import { Turret } from "../combat/Turret.js";
 import { inputState } from "../input/Input.js";
@@ -111,7 +112,7 @@ class Game {
                 angleDifference += Math.PI * 2;
             }
 
-            const turnSpeed = 7;
+            const turnSpeed = 2;
 
             this.playerTank.hullAngle +=
                 angleDifference *
@@ -145,7 +146,6 @@ class Game {
             this.speed *
             deltaTime;
 
-        // 005 Turret
         this.turret.update(
             this.playerTank,
             inputState.turret,
