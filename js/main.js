@@ -1,4 +1,7 @@
+import { Tank } from "./vehicle/Tank.js";
 import { inputState } from "./input/Input.js";
+
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -10,6 +13,7 @@ let lastTime = 0;
    ========================= */
 
 function resizeCanvas() {
+
     const dpr = window.devicePixelRatio || 1;
 
     const width = window.innerWidth;
@@ -29,11 +33,25 @@ function resizeCanvas() {
         0,
         0
     );
+
 }
 
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
 
 resizeCanvas();
+
+
+/* =========================
+   003 坦克
+   ========================= */
+
+const playerTank = new Tank(
+    window.innerWidth / 2,
+    window.innerHeight / 2
+);
 
 
 /* =========================
@@ -42,14 +60,12 @@ resizeCanvas();
 
 function update(deltaTime) {
 
-    // 以后：
-    // 移动
-    // 炮塔
-    // 敌人
-    // 炮弹
-    // 地图
-    // 伤害
-    // 都会在这里连接进来
+    /*
+     * 当前阶段暂时不移动坦克。
+     *
+     * 左摇杆已经由 002 Input 接收，
+     * 下一阶段再交给 004 Movement。
+     */
 
 }
 
@@ -63,9 +79,9 @@ function render() {
     const width = window.innerWidth;
     const height = window.innerHeight;
 
+
     /*
-     * 当前只是测试 Canvas 是否正常工作。
-     * 正式地图和坦克之后再接入。
+     * 清空画面
      */
 
     ctx.clearRect(
@@ -74,6 +90,11 @@ function render() {
         width,
         height
     );
+
+
+    /*
+     * 测试场背景
+     */
 
     ctx.fillStyle = "#202020";
 
@@ -84,23 +105,13 @@ function render() {
         height
     );
 
+
     /*
-     * Canvas 中央测试点
+     * 绘制玩家坦克
      */
 
-    ctx.fillStyle = "#ffffff";
+    playerTank.draw(ctx);
 
-    ctx.beginPath();
-
-    ctx.arc(
-        width / 2,
-        height / 2,
-        4,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fill();
 }
 
 
@@ -111,7 +122,9 @@ function render() {
 function gameLoop(timestamp) {
 
     if (!lastTime) {
+
         lastTime = timestamp;
+
     }
 
     const deltaTime =
@@ -119,11 +132,16 @@ function gameLoop(timestamp) {
 
     lastTime = timestamp;
 
+
     update(deltaTime);
 
     render();
 
-    requestAnimationFrame(gameLoop);
+
+    requestAnimationFrame(
+        gameLoop
+    );
+
 }
 
 
@@ -131,4 +149,6 @@ function gameLoop(timestamp) {
    启动游戏
    ========================= */
 
-requestAnimationFrame(gameLoop);
+requestAnimationFrame(
+    gameLoop
+);
