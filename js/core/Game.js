@@ -1,5 +1,5 @@
-
 import { Tank } from "../vehicle/Tank.js";
+import { Movement } from "../movement/Movement.js";
 import { Turret } from "../combat/Turret.js";
 import { inputState } from "../input/Input.js";
 
@@ -17,12 +17,8 @@ class Game {
             window.innerHeight / 2
         );
 
+        this.movement = new Movement();
         this.turret = new Turret();
-
-        this.speed = 0;
-        this.maxSpeed = 180;
-        this.acceleration = 420;
-        this.deceleration = 520;
 
         this.resizeCanvas();
 
@@ -73,7 +69,7 @@ class Game {
         this.playerTank.y =
             window.innerHeight / 2;
 
-        this.speed = 0;
+        this.movement.reset();
     }
 
     update(deltaTime) {
@@ -81,70 +77,11 @@ class Game {
             return;
         }
 
-        const movementInput =
-            inputState.movement;
-
-        if (movementInput.active) {
-
-            this.speed +=
-                this.acceleration *
-                deltaTime;
-
-            if (this.speed > this.maxSpeed) {
-                this.speed = this.maxSpeed;
-            }
-
-            const targetAngle =
-                Math.atan2(
-                    movementInput.y,
-                    movementInput.x
-                );
-
-            let angleDifference =
-                targetAngle -
-                this.playerTank.hullAngle;
-
-            while (angleDifference > Math.PI) {
-                angleDifference -= Math.PI * 2;
-            }
-
-            while (angleDifference < -Math.PI) {
-                angleDifference += Math.PI * 2;
-            }
-
-            const turnSpeed = 2;
-
-            this.playerTank.hullAngle +=
-                angleDifference *
-                Math.min(
-                    1,
-                    turnSpeed * deltaTime
-                );
-
-        } else {
-
-            this.speed -=
-                this.deceleration *
-                deltaTime;
-
-            if (this.speed < 0) {
-                this.speed = 0;
-            }
-        }
-
-        this.playerTank.x +=
-            Math.cos(
-                this.playerTank.hullAngle
-            ) *
-            this.speed *
-            deltaTime;
-
-        this.playerTank.y +=
-            Math.sin(
-                this.playerTank.hullAngle
-            ) *
-            this.speed *
-            deltaTime;
+        this.movement.update(
+            this.playerTank,
+            inputState.movement,
+            deltaTime
+        );
 
         this.turret.update(
             this.playerTank,
