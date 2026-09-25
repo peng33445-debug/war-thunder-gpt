@@ -1,11 +1,9 @@
 ```javascript
 import { Guide } from "./Guide.js";
 
-
 class Game {
 
     constructor(canvas) {
-
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
 
@@ -19,7 +17,6 @@ class Game {
         const modules =
             Guide.modules;
 
-
         // =========================
         // Player Tank
         // =========================
@@ -30,7 +27,6 @@ class Game {
                 window.innerHeight / 2
             );
 
-
         // =========================
         // Movement
         // =========================
@@ -38,14 +34,12 @@ class Game {
         this.movement =
             modules.movement.create();
 
-
         // =========================
         // Turret
         // =========================
 
         this.turret =
             modules.turret.create();
-
 
         // =========================
         // Enemy
@@ -57,14 +51,12 @@ class Game {
                 window.innerHeight / 2
             );
 
-
         // =========================
         // Camera
         // =========================
 
         this.camera =
             modules.camera.create();
-
 
         this.resizeCanvas();
 
@@ -74,13 +66,7 @@ class Game {
         );
     }
 
-
-    // =========================
-    // Canvas
-    // =========================
-
     resizeCanvas() {
-
         const dpr =
             window.devicePixelRatio || 1;
 
@@ -111,31 +97,18 @@ class Game {
             0
         );
 
-
         // =========================
         // Camera 尺寸
         // =========================
 
-        Guide.modules.camera.resize(
-            this.camera,
+        this.camera.resize(
             width,
             height
         );
     }
 
-
-    // =========================
-    // 游戏开始
-    // =========================
-
     start() {
-
         this.started = true;
-
-
-        // =========================
-        // Player Position
-        // =========================
 
         this.playerTank.x =
             window.innerWidth / 2;
@@ -143,13 +116,7 @@ class Game {
         this.playerTank.y =
             window.innerHeight / 2;
 
-
-        // =========================
-        // Movement
-        // =========================
-
         this.movement.reset();
-
 
         // =========================
         // Enemy Position
@@ -161,28 +128,24 @@ class Game {
         this.enemy.y =
             window.innerHeight / 2;
 
-
         // =========================
         // Camera 初始位置
         // =========================
 
-        Guide.modules.camera.snapTo(
-            this.camera,
-            this.playerTank
-        );
+        this.camera.x =
+            this.playerTank.x -
+            window.innerWidth / 2;
+
+        this.camera.y =
+            this.playerTank.y -
+            window.innerHeight / 2;
     }
-
-
-    // =========================
-    // 游戏更新
-    // =========================
 
     update(deltaTime) {
 
         if (!this.started) {
             return;
         }
-
 
         // =========================
         // Guide → Movement
@@ -194,7 +157,6 @@ class Game {
             deltaTime
         );
 
-
         // =========================
         // Guide → Turret
         // =========================
@@ -205,7 +167,6 @@ class Game {
             deltaTime
         );
 
-
         // =========================
         // Guide → Enemy
         // =========================
@@ -214,22 +175,15 @@ class Game {
             this.enemy
         );
 
-
         // =========================
-        // Guide → Camera
+        // Camera
         // =========================
 
-        Guide.modules.camera.follow(
-            this.camera,
+        this.camera.follow(
             this.playerTank,
             deltaTime
         );
     }
-
-
-    // =========================
-    // 游戏渲染
-    // =========================
 
     render() {
 
@@ -239,22 +193,12 @@ class Game {
         const height =
             window.innerHeight;
 
-
-        // =========================
-        // 清除画面
-        // =========================
-
         this.ctx.clearRect(
             0,
             0,
             width,
             height
         );
-
-
-        // =========================
-        // 背景
-        // =========================
 
         this.ctx.fillStyle =
             "#202020";
@@ -266,14 +210,12 @@ class Game {
             height
         );
 
-
         if (!this.started) {
             return;
         }
 
-
         // =========================
-        // 世界坐标开始
+        // Camera 世界坐标
         // =========================
 
         this.ctx.save();
@@ -282,7 +224,6 @@ class Game {
             -this.camera.x,
             -this.camera.y
         );
-
 
         // =========================
         // Enemy
@@ -293,7 +234,6 @@ class Game {
             this.ctx
         );
 
-
         // =========================
         // Tank
         // =========================
@@ -301,7 +241,6 @@ class Game {
         this.playerTank.draw(
             this.ctx
         );
-
 
         // =========================
         // Guide → Turret
@@ -313,18 +252,8 @@ class Game {
             this.playerTank
         );
 
-
-        // =========================
-        // 世界坐标结束
-        // =========================
-
         this.ctx.restore();
     }
-
-
-    // =========================
-    // 游戏循环
-    // =========================
 
     gameLoop(timestamp) {
 
@@ -339,22 +268,14 @@ class Game {
         this.lastTime =
             timestamp;
 
-
         this.update(deltaTime);
-
         this.render();
-
 
         requestAnimationFrame(
             (time) =>
                 this.gameLoop(time)
         );
     }
-
-
-    // =========================
-    // 运行
-    // =========================
 
     run() {
 
@@ -364,7 +285,6 @@ class Game {
         );
     }
 }
-
 
 export { Game };
 ```
