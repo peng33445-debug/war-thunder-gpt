@@ -1,3 +1,4 @@
+
 import { Tank } from "../vehicle/Tank.js";
 import { Movement } from "../movement/Movement.js";
 import { Turret } from "../combat/Turret.js";
@@ -73,15 +74,24 @@ class Game {
     }
 
     update(deltaTime) {
+
         if (!this.started) {
             return;
         }
+
+        // =========================
+        // 004 Movement
+        // =========================
 
         this.movement.update(
             this.playerTank,
             inputState.movement,
             deltaTime
         );
+
+        // =========================
+        // 005 Turret
+        // =========================
 
         this.turret.update(
             this.playerTank,
@@ -91,6 +101,7 @@ class Game {
     }
 
     render() {
+
         const width =
             window.innerWidth;
 
@@ -114,14 +125,30 @@ class Game {
             height
         );
 
-        if (this.started) {
-            this.playerTank.draw(
-                this.ctx
-            );
+        if (!this.started) {
+            return;
         }
+
+        // =========================
+        // Tank
+        // =========================
+
+        this.playerTank.draw(
+            this.ctx
+        );
+
+        // =========================
+        // Turret
+        // =========================
+
+        this.turret.draw(
+            this.ctx,
+            this.playerTank
+        );
     }
 
     gameLoop(timestamp) {
+
         if (!this.lastTime) {
             this.lastTime =
                 timestamp;
@@ -143,6 +170,7 @@ class Game {
     }
 
     run() {
+
         requestAnimationFrame(
             (time) =>
                 this.gameLoop(time)
