@@ -1,1 +1,412 @@
+/* =========================
+   基础页面
+   ========================= */
 
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    background: #111;
+    color: #fff;
+
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    touch-action: none;
+}
+
+
+/* =========================
+   游戏主容器
+   ========================= */
+
+#game {
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background: #151515;
+}
+
+
+/* =========================
+   Canvas
+   ========================= */
+
+#gameCanvas {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    background: #202020;
+}
+
+
+/* =========================
+   主菜单
+   ========================= */
+
+#mainMenu {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: min(360px, 80vw);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    z-index: 10;
+}
+
+
+#mainMenu button {
+    width: 100%;
+
+    min-height: 54px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+
+    background: rgba(35, 35, 35, 0.92);
+
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        transform 0.1s ease;
+}
+
+
+#mainMenu button:active {
+    transform: scale(0.97);
+
+    background: rgba(60, 60, 60, 0.95);
+}
+
+
+/* =========================
+   游戏 UI 总层
+   ========================= */
+
+#gameUI {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+
+/* =========================
+   玩家状态
+   ========================= */
+
+#playerStatus {
+    position: absolute;
+
+    left: 50%;
+    top: 18px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    pointer-events: none;
+}
+
+
+/* HP */
+
+#playerHP {
+    min-width: 110px;
+    height: 30px;
+
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background: rgba(20, 20, 20, 0.82);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+#playerHPText {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   玩家引擎状态
+   ========================= */
+
+#playerEngineStatus {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px 9px;
+
+    border-radius: 7px;
+
+    background: rgba(20, 20, 20, 0.82);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    font-size: 13px;
+}
+
+
+#playerEngineIndicator {
+    width: 9px;
+    height: 9px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+
+    background: #45d483;
+}
+
+
+/* =========================
+   敌方反馈
+   ========================= */
+
+#enemyFeedback {
+    position: absolute;
+
+    right: 20px;
+    top: 20px;
+
+    width: 180px;
+    min-height: 60px;
+
+    padding: 10px;
+
+    display: none;
+
+    border-radius: 8px;
+
+    background: rgba(20, 20, 20, 0.82);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    pointer-events: none;
+}
+
+
+#enemyName {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+#enemyModuleInfo {
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    opacity: 0.8;
+}
+
+
+/* =========================
+   摇杆
+   ========================= */
+
+.joystick {
+    position: absolute;
+
+    width: 128px;
+    height: 128px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    pointer-events: auto;
+
+    touch-action: none;
+}
+
+
+.joystickInner {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 54px;
+    height: 54px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+
+/* =========================
+   移动摇杆
+   ========================= */
+
+#movementJoystick {
+    left: 28px;
+    bottom: 28px;
+}
+
+
+/* =========================
+   炮塔摇杆
+   ========================= */
+
+#turretJoystick {
+    right: 28px;
+    bottom: 28px;
+}
+
+
+/* =========================
+   开火按钮
+   ========================= */
+
+#fireButton {
+    position: absolute;
+
+    right: 180px;
+    bottom: 52px;
+
+    width: 76px;
+    height: 76px;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 50%;
+
+    background: rgba(120, 120, 120, 0.22);
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    pointer-events: auto;
+
+    touch-action: none;
+}
+
+
+#fireButton:active {
+    transform: scale(0.94);
+
+    background: rgba(150, 150, 150, 0.35);
+}
+
+
+/* =========================
+   暂停 / 设置
+   ========================= */
+
+#pauseMenu,
+#settingsMenu {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 20;
+}
+
+
+/* =========================
+   横屏提示
+   ========================= */
+
+@media (orientation: portrait) {
+
+    #mainMenu,
+    #gameUI {
+        display: none;
+    }
+
+    #game::after {
+        content: "请将手机横向使用";
+
+        position: absolute;
+
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%, -50%);
+
+        width: 100%;
+
+        text-align: center;
+
+        color: rgba(255, 255, 255, 0.8);
+
+        font-size: 18px;
+
+        z-index: 100;
+    }
+}
