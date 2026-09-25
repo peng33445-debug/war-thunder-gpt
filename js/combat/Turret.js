@@ -7,67 +7,29 @@ class Turret {
         }
 
         /*
-         * 右摇杆方向是世界方向。
+         * 只使用右摇杆的左右方向。
+         *
+         * x > 0：向右旋转
+         * x < 0：向左旋转
+         *
+         * y 不参与炮塔旋转。
          */
-        const targetWorldAngle =
-            Math.atan2(
-                input.y,
-                input.x
-            );
+
+        const rotationInput =
+            input.x;
 
         /*
-         * 把世界方向转换成
-         * 相对于坦克车体的方向。
+         * 摇杆越往左右推，
+         * 炮塔旋转越快。
          */
-        let targetRelativeAngle =
-            targetWorldAngle -
-            tank.hullAngle;
 
-        while (targetRelativeAngle > Math.PI) {
-            targetRelativeAngle -= Math.PI * 2;
-        }
-
-        while (targetRelativeAngle < -Math.PI) {
-            targetRelativeAngle += Math.PI * 2;
-        }
-
-        /*
-         * 炮塔当前角度就是
-         * 相对于车体的角度。
-         */
-        let angleDifference =
-            targetRelativeAngle -
-            tank.turretAngle;
-
-        while (angleDifference > Math.PI) {
-            angleDifference -= Math.PI * 2;
-        }
-
-        while (angleDifference < -Math.PI) {
-            angleDifference += Math.PI * 2;
-        }
-
-        /*
-         * 当前 V0.1 测试坦克的炮塔转速。
-         * 以后这里会从坦克自己的数据读取。
-         */
         const rotationSpeed =
             tank.turretTurnSpeed;
 
-        const maxRotation =
-            rotationSpeed * deltaTime;
-
-        if (Math.abs(angleDifference) <= maxRotation) {
-
-            tank.turretAngle =
-                targetRelativeAngle;
-
-        } else {
-
-            tank.turretAngle +=
-                Math.sign(angleDifference) *
-                maxRotation;
-        }
+        tank.turretAngle +=
+            rotationInput *
+            rotationSpeed *
+            deltaTime;
     }
 }
 
