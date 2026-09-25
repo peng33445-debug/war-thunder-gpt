@@ -1,5 +1,5 @@
 import { Tank } from "../vehicle/Tank.js";
-import { Movement } from "../vehicle/Movement.js";
+import { inputState } from "../input/Input.js";
 
 class Game {
 
@@ -15,10 +15,10 @@ class Game {
             window.innerHeight / 2
         );
 
-        this.playerMovement =
-            new Movement(
-                this.playerTank
-            );
+        this.speed = 0;
+        this.maxSpeed = 180;
+        this.acceleration = 420;
+        this.deceleration = 520;
 
         this.resizeCanvas();
 
@@ -69,7 +69,7 @@ class Game {
         this.playerTank.y =
             window.innerHeight / 2;
 
-        this.playerMovement.speed = 0;
+        this.speed = 0;
     }
 
     update(deltaTime) {
@@ -77,9 +77,70 @@ class Game {
             return;
         }
 
-        this.playerMovement.update(
-            deltaTime
-        );
+        const input =
+            inputState.movement;
+
+        if (input.active) {
+
+            this.speed +=
+                this.acceleration *
+                deltaTime;
+
+            if (this.speed > this.maxSpeed) {
+                this.speed = this.maxSpeed;
+            }
+
+            const targetAngle =
+                Math.atan2(
+                    input.y,
+                    input.x
+                );
+
+            let angleDifference =
+                targetAngle -
+                this.playerTank.hullAngle;
+
+            while (angleDifference > Math.PI) {
+                angleDifference -= Math.PI * 2;
+            }
+
+            while (angleDifference < -Math.PI) {
+                angleDifference += Math.PI * 2;
+            }
+
+            const turnSpeed = 7;
+
+            this.playerTank.hullAngle +=
+                angleDifference *
+                Math.min(
+                    1,
+                    turnSpeed * deltaTime
+                );
+
+        } else {
+
+            this.speed -=
+                this.deceleration *
+                deltaTime;
+
+            if (this.speed < 0) {
+                this.speed = 0;
+            }
+        }
+
+        this.playerTank.x +=
+            Math.cos(
+                this.playerTank.hullAngle
+            ) *
+            this.speed *
+            deltaTime;
+
+        this.playerTank.y +=
+            Math.sin(
+                this.playerTank.hullAngle
+            ) *
+            this.speed *
+            deltaTime;
     }
 
     render() {
